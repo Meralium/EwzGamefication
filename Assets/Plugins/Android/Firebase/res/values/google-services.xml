@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="firebase_database_url" translatable="false">https://gameewz-59f8b.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">301111714207</string>
+  <string name="google_storage_bucket" translatable="false">gameewz-59f8b.appspot.com</string>
+  <string name="google_api_key" translatable="false">AIzaSyDLLnKs-xJ0GA0BKTKU9t-86N0DMp2bFbU</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDLLnKs-xJ0GA0BKTKU9t-86N0DMp2bFbU</string>
+  <string name="google_app_id" translatable="false">1:301111714207:android:821ab885145ad654</string>
+  <string name="default_web_client_id" translatable="false">301111714207-ljpqd3aa4jnai0f47vlnigf6q5qu1vpc.apps.googleusercontent.com</string>
+</resources>

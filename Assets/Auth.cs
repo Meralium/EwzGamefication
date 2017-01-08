@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 
 using Firebase;
-using Firebase.Database;
+using Firebase.Auth;
+using Firebase.Database; 
 using Firebase.Unity.Editor;
 
 public class Auth : MonoBehaviour {
@@ -34,8 +35,7 @@ public class Auth : MonoBehaviour {
     {
         Debug.Log("Auth Pressed");
         Debug.LogAssertion("Name: " + nameInput.text);
-        Debug.LogAssertion("Password: " + passwordInput.text);
-
+        Debug.LogAssertion("Password: " + passwordInput.text); 
         auth.CreateUserWithEmailAndPasswordAsync(nameInput.text, passwordInput.text).ContinueWith(HandleCreateResult); 
     }
     void HandleCreateResult(System.Threading.Tasks.Task<Firebase.Auth.FirebaseUser> authTask) { 
@@ -48,7 +48,7 @@ public class Auth : MonoBehaviour {
             Debug.Log("User Creation completed.");
             if (auth.CurrentUser != null) {
                 Debug.Log("User Info: " + auth.CurrentUser.Email + "   " + auth.CurrentUser.ProviderId + "  UID: " + auth.CurrentUser.PhotoUrl);
-            
+
                 Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile();
                 profile.DisplayName = "Jane Q. User";
                 profile.PhotoUri =  new System.Uri("https://example.com/jane-q-user/profile.jpg");
@@ -57,6 +57,7 @@ public class Auth : MonoBehaviour {
                         Debug.Log("User profile updated.");
                     }
                 });
+                SignIn();
             }
         }
     }
@@ -70,17 +71,22 @@ public class Auth : MonoBehaviour {
                 user = task.Result; 
                 Debug.Log("User has been Signed In: " + auth.CurrentUser.DisplayName + " " + auth.CurrentUser.PhotoUrl); 
             }
+            else{
+                Debug.Log("User does not exist, cant sign in"); 
+             
+            }
         });
     }
     // initialization
     void InitializeFirebase()
-    {
-
-        Debug.Log("Setting up Firebase Auth");
-
-        FirebaseApp app = FirebaseApp.DefaultInstance; 
+    { 
+        Debug.Log("Setting up Firebase Auth");  
+        FirebaseApp app = FirebaseApp.DefaultInstance;
+        app.SetEditorDatabaseUrl("https://gameewz-59f8b.firebaseio.com/"); 
+        //var app = FirebaseApp.Create("https://gameewz-59f8b.firebaseio.com/");
         //The FirebaseAuth class is the gateway for all API calls. It is accessable through FirebaseAuth.DefaultInstance.
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;  
+        //auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        //auth = Firebase.Auth.FirebaseAuth.GetAuth(app);
         auth.StateChanged += AuthStateChanged;
     }
     // Track state changes of the auth object.
@@ -98,6 +104,9 @@ public class Auth : MonoBehaviour {
             }
             user = auth.CurrentUser;
         }
+    }
+    public void SignOut(){
+        auth.SignOut();
     }
     // cleanup
     void OnDestroy()
